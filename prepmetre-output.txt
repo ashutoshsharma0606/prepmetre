@@ -5,7 +5,7 @@ PROJECT EXPORT FOR LLMs
 PROJECT INFORMATION:
 --------------------------------------------------
 Project Name: prepmetre
-Generated On: 2026-09-28 14:11:26 (Asia/Calcutta / GMT+06:30)
+Generated On: 2026-09-28 14:17:29 (Asia/Calcutta / GMT+06:30)
 Total Files Processed: 45
 Export Tool: Easy Whole Project to Single Text File for LLMs v1.1.0
 Tool Author: Jota / José Guilherme Pandolfi
@@ -30,7 +30,7 @@ PROJECT STRUCTURE
 │   ├── 📁 api/
 │   │   ├── 📁 auth/
 │   │   │   ├── 📁 [...nextauth]/
-│   │   │   │   └── 📄 route.js (558 B)
+│   │   │   │   └── 📄 route.js (594 B)
 │   │   │   └── 📁 register/
 │   │   │       └── 📄 route.ts (1.23 KB)
 │   │   └── 📁 generate-questions/
@@ -372,21 +372,23 @@ FILE: app/api/auth/[...nextauth]/route.js
 
 FILE INFORMATION:
 ----------------------------------------
-Size: 558 B
+Size: 594 B
 Extension: .js
 Language: javascript
 Location: app/api/auth/[...nextauth]/route.js
 Relative Path: app/api/auth/[...nextauth]
 Created: 2026-09-28 06:51:51 (Asia/Calcutta / GMT+06:30)
-Modified: 2026-09-28 14:11:25 (Asia/Calcutta / GMT+06:30)
-MD5: 5a5493634d613baaaca81a335e16d350
-SHA256: c0d92a31bdf4e2b7915f1a87673b41cb67057521f83b7c28b3d1760cd68d47a6
+Modified: 2026-09-28 14:17:28 (Asia/Calcutta / GMT+06:30)
+MD5: 07b800ac406aeb13a96c1a85e78696c1
+SHA256: b3ee69b8e8d4664f12c468de2f365398c3971a5f44cd2ea8a3f5722ba995a8d8
 Encoding: ASCII
 
 FILE CONTENT:
 ----------------------------------------
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+
+export const runtime = "nodejs";
 
 const handler = NextAuth({
   providers: [
