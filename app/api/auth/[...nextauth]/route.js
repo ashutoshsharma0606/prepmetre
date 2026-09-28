@@ -1,14 +1,14 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-const handler = NextAuth({
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || process.env.NEXTAUTH_URL,
+  secret: process.env.NEXTAUTH_SECRET || "fallback_secret_key_prepmetre_2026",
   callbacks: {
     async session({ session, token }) {
       if (session?.user && token?.sub) {
@@ -17,6 +17,8 @@ const handler = NextAuth({
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
