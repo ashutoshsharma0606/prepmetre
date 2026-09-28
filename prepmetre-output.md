@@ -3,7 +3,7 @@
 ## 📊 Project Information
 
 - **Project Name**: `prepmetre`
-- **Generated On**: 2026-09-28 15:39:21 (Asia/Calcutta / GMT+06:30)
+- **Generated On**: 2026-09-28 16:57:11 (Asia/Calcutta / GMT+06:30)
 - **Total Files Processed**: 45
 - **Export Tool**: Easy Whole Project to Single Text File for LLMs v1.1.0
 - **Tool Author**: Jota / José Guilherme Pandolfi
@@ -28,7 +28,7 @@
 │   ├── 📁 api/
 │   │   ├── 📁 auth/
 │   │   │   ├── 📁 [...nextauth]/
-│   │   │   │   └── 📄 route.js (415 B)
+│   │   │   │   └── 📄 route.js (2.35 KB)
 │   │   │   └── 📁 register/
 │   │   │       └── 📄 route.ts (1.23 KB)
 │   │   └── 📁 generate-questions/
@@ -407,34 +407,87 @@ export default function AdminPage() {
 ### <a id="📄-app-api-auth-nextauth-route-js"></a>📄 `app/api/auth/[...nextauth]/route.js`
 
 **File Info:**
-- **Size**: 415 B
+- **Size**: 2.35 KB
 - **Extension**: `.js`
 - **Language**: `javascript`
 - **Location**: `app/api/auth/[...nextauth]/route.js`
 - **Relative Path**: `app/api/auth/[...nextauth]`
 - **Created**: 2026-09-28 06:51:51 (Asia/Calcutta / GMT+06:30)
-- **Modified**: 2026-09-28 15:39:20 (Asia/Calcutta / GMT+06:30)
-- **MD5**: `bc7bd7eb572923c4e1721aff900f0689`
-- **SHA256**: `f1abc9f73060cb1895233f389fab7d083c3420bcf747cdabaa525e0b8c1bbbf1`
+- **Modified**: 2026-09-28 16:57:10 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `53066681cff843b0acd3e0aec90c79cf`
+- **SHA256**: `989cd800f773880cf40c173f4930c3159b678c85ef0aea6f13ab410d00cab462`
 - **Encoding**: ASCII
 
 **File code content:**
 
 ```javascript
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import { NextResponse } from "next/server";
 
-const handler = NextAuth({
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-  secret: process.env.NEXTAUTH_SECRET || "fallback_secret_key_prepmetre_2026_secure",
-});
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get("code");
 
-export { handler as GET, handler as POST };
+  // Step 1: If no code, redirect user to Google's OAuth login screen
+  if (!code) {
+    const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+    const options = {
+      redirect_uri: `${process.env.NEXTAUTH_URL || "https://prepmetre.vercel.app"}/api/auth/callback/google`,
+      client_id: process.env.GOOGLE_CLIENT_ID || "",
+      access_type: "offline",
+      response_type: "code",
+      prompt: "consent",
+      scope: [
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
+      ].join(" "),
+    };
+
+    const qs = new URLSearchParams(options);
+    return NextResponse.redirect(`${rootUrl}?${qs.toString()}`);
+  }
+
+  // Step 2: Handle callback from Google, exchange code for tokens & profile
+  try {
+    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        code,
+        client_id: process.env.GOOGLE_CLIENT_ID || "",
+        client_secret: process.env.GOOGLE_CLIENT_SECRET || "",
+        redirect_uri: `${process.env.NEXTAUTH_URL || "https://prepmetre.vercel.app"}/api/auth/callback/google`,
+        grant_type: "authorization_code",
+      }),
+    });
+
+    const tokenData = await tokenRes.json();
+    if (!tokenData.access_token) {
+      throw new Error("Failed to obtain access token from Google.");
+    }
+
+    const userRes = await fetch("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` },
+    });
+    const userData = await userRes.json();
+
+    // Set a secure cookie or session token, then redirect to admin/home page
+    const response = NextResponse.redirect(new URL("/admin", request.url));
+    response.cookies.set({
+      name: "prepmetre_user",
+      value: JSON.stringify(userData),
+      httpOnly: true,
+      secure: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+    });
+
+    return response;
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export { GET as POST };
 ```
 
 ---
