@@ -5,7 +5,7 @@ PROJECT EXPORT FOR LLMs
 PROJECT INFORMATION:
 --------------------------------------------------
 Project Name: prepmetre
-Generated On: 2026-09-28 07:54:20 (Asia/Calcutta / GMT+06:30)
+Generated On: 2026-09-28 09:39:25 (Asia/Calcutta / GMT+06:30)
 Total Files Processed: 43
 Export Tool: Easy Whole Project to Single Text File for LLMs v1.1.0
 Tool Author: Jota / José Guilherme Pandolfi
@@ -30,7 +30,7 @@ PROJECT STRUCTURE
 │   ├── 📁 api/
 │   │   ├── 📁 auth/
 │   │   │   ├── 📁 [...nextauth]/
-│   │   │   │   └── 📄 route.ts (1.83 KB)
+│   │   │   │   └── 📄 route.js (631 B)
 │   │   │   └── 📁 register/
 │   │   │       └── 📄 route.ts (1.23 KB)
 │   │   └── 📁 generate-questions/
@@ -101,12 +101,13 @@ Total Size: 20.85 MB
 
 FILE TYPES DISTRIBUTION:
 ------------------------------
-.ts             : 14
+.ts             : 13
 .tsx            : 11
 .svg            : 5
 .md             : 3
 .json           : 3
 .mjs            : 2
+.js             : 1
 .node           : 1
 .ico            : 1
 .css            : 1
@@ -362,89 +363,48 @@ export default function AdminPage() {
 
 
 ================================================================================
-FILE: app/api/auth/[...nextauth]/route.ts
+FILE: app/api/auth/[...nextauth]/route.js
 ================================================================================
 
 FILE INFORMATION:
 ----------------------------------------
-Size: 1.83 KB
-Extension: .ts
-Language: typescript
-Location: app/api/auth/[...nextauth]/route.ts
+Size: 631 B
+Extension: .js
+Language: javascript
+Location: app/api/auth/[...nextauth]/route.js
 Relative Path: app/api/auth/[...nextauth]
 Created: 2026-09-28 06:51:51 (Asia/Calcutta / GMT+06:30)
-Modified: 2026-09-28 07:36:02 (Asia/Calcutta / GMT+06:30)
-MD5: 399cf6c9efd453325b0753d4e5bf40a1
-SHA256: 93613e03c9c3854e51ed9ca6e56681d06d6bb8919c70b6207b8531f8dfcd685e
+Modified: 2026-09-28 09:39:25 (Asia/Calcutta / GMT+06:30)
+MD5: afc91c3a8c369df4c3caca51bf4d22a5
+SHA256: a19375fc1df40c2be723a3d87c5bb30dffa515e27c8f0763cba5eac1e9f7651c
 Encoding: ASCII
 
 FILE CONTENT:
 ----------------------------------------
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { query } from "@/lib/db";
-import bcrypt from "bcrypt";
+import GoogleProvider from "next-auth/providers/google";
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
+export const authOptions = {
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing email or password");
-        }
-
-        const result = await query('SELECT * FROM "User" WHERE email = $1', [credentials.email]);
-        const user = result.rows[0];
-
-        if (!user) {
-          throw new Error("No user found with this email");
-        }
-
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isPasswordValid) {
-          throw new Error("Invalid password");
-        }
-
-        const role = user.email === "sharmagroup2026business@gmail.com" ? "ADMIN" : user.role;
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: role,
-        };
-      }
-    })
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
   ],
+  secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-prepmetre-2026",
   callbacks: {
-    async jwt({ token, user }: { token: any; user: any }) {
-      if (user) {
-        token.role = user.role;
-      }
-      return token;
-    },
-    async session({ session, token }: { session: any; token: any }) {
+    async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role;
+        session.user.id = token.sub;
       }
       return session;
-    }
+    },
   },
-  pages: {
-    signIn: "/auth/login",
-  },
-  session: {
-    strategy: "jwt" as const,
-  },
-  secret: process.env.NEXTAUTH_SECRET || "super-secure-prepmetre-secret-key-2026",
-});
+};
 
-export { handlers as GET, handlers as POST };
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
 ================================================================================
 
 
