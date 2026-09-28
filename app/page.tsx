@@ -218,8 +218,8 @@ export default function Home() {
             <ul className="space-y-2 text-xs text-slate-400">
               <li><Link href="/privacy" className="hover:text-indigo-400 transition">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-indigo-400 transition">Terms & Conditions</Link></li>
-              <li><Link href="/privacy" className="hover:text-indigo-400 transition">Copyright Notice</Link></li>
-              <li><Link href="/privacy" className="hover:text-indigo-400 transition">Security Disclosure</Link></li>
+              <li><Link href="/copyright" className="hover:text-indigo-400 transition">Copyright Notice</Link></li>
+              <li><Link href="/security" className="hover:text-indigo-400 transition">Security Disclosure</Link></li>
             </ul>
           </div>
 

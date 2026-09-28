@@ -3,8 +3,8 @@
 ## 📊 Project Information
 
 - **Project Name**: `prepmetre`
-- **Generated On**: 2026-09-28 09:39:25 (Asia/Calcutta / GMT+06:30)
-- **Total Files Processed**: 43
+- **Generated On**: 2026-09-28 13:42:53 (Asia/Calcutta / GMT+06:30)
+- **Total Files Processed**: 45
 - **Export Tool**: Easy Whole Project to Single Text File for LLMs v1.1.0
 - **Tool Author**: Jota / José Guilherme Pandolfi
 
@@ -38,6 +38,8 @@
 │   │       └── 📄 page.tsx (4.7 KB)
 │   ├── 📁 contact/
 │   │   └── 📄 page.tsx (3.44 KB)
+│   ├── 📁 copyright/
+│   │   └── 📄 page.tsx (5.86 KB)
 │   ├── 📁 generated/
 │   │   └── 📁 prisma/
 │   │       ├── 📁 internal/
@@ -55,9 +57,11 @@
 │   │   └── 📁 [id]/
 │   │       └── 📄 page.tsx (9.97 KB)
 │   ├── 📁 privacy/
-│   │   └── 📄 page.tsx (3.85 KB)
+│   │   └── 📄 page.tsx (10.95 KB)
+│   ├── 📁 security/
+│   │   └── 📄 page.tsx (5.37 KB)
 │   ├── 📁 terms/
-│   │   └── 📄 page.tsx (3.3 KB)
+│   │   └── 📄 page.tsx (10.27 KB)
 │   ├── 📁 tests/
 │   │   ├── 📁 [exam]/
 │   │   │   └── 📄 page.tsx (3.14 KB)
@@ -100,6 +104,7 @@
 - [📄 app/api/generate-questions/route.ts](#📄-app-api-generate-questions-route-ts)
 - [📄 app/auth/login/page.tsx](#📄-app-auth-login-page-tsx)
 - [📄 app/contact/page.tsx](#📄-app-contact-page-tsx)
+- [📄 app/copyright/page.tsx](#📄-app-copyright-page-tsx)
 - [📄 app/generated/prisma/internal/class.ts](#📄-app-generated-prisma-internal-class-ts)
 - [📄 app/generated/prisma/internal/prismaNamespace.ts](#📄-app-generated-prisma-internal-prismanamespace-ts)
 - [📄 app/generated/prisma/internal/prismaNamespaceBrowser.ts](#📄-app-generated-prisma-internal-prismanamespacebrowser-ts)
@@ -110,6 +115,7 @@
 - [📄 app/generated/prisma/models.ts](#📄-app-generated-prisma-models-ts)
 - [📄 app/mock-test/[id]/page.tsx](#📄-app-mock-test-id-page-tsx)
 - [📄 app/privacy/page.tsx](#📄-app-privacy-page-tsx)
+- [📄 app/security/page.tsx](#📄-app-security-page-tsx)
 - [📄 app/terms/page.tsx](#📄-app-terms-page-tsx)
 - [📄 app/tests/[exam]/page.tsx](#📄-app-tests-exam-page-tsx)
 - [📄 app/tests/page.tsx](#📄-app-tests-page-tsx)
@@ -132,18 +138,18 @@
 
 | Metric | Count |
 |--------|-------|
-| Total Files | 43 |
-| Total Directories | 24 |
-| Text Files | 32 |
+| Total Files | 45 |
+| Total Directories | 26 |
+| Text Files | 34 |
 | Binary Files | 11 |
-| Total Size | 20.85 MB |
+| Total Size | 20.87 MB |
 
 ### 📄 File Types Distribution
 
 | Extension | Count |
 |-----------|-------|
+| `.tsx` | 13 |
 | `.ts` | 13 |
-| `.tsx` | 11 |
 | `.svg` | 5 |
 | `.md` | 3 |
 | `.json` | 3 |
@@ -772,6 +778,123 @@ export default function ContactPage() {
           </form>
         )}
       </main>
+    </div>
+  );
+}
+```
+
+---
+
+### <a id="📄-app-copyright-page-tsx"></a>📄 `app/copyright/page.tsx`
+
+**File Info:**
+- **Size**: 5.86 KB
+- **Extension**: `.tsx`
+- **Language**: `typescript`
+- **Location**: `app/copyright/page.tsx`
+- **Relative Path**: `app/copyright`
+- **Created**: 2026-09-28 12:55:46 (Asia/Calcutta / GMT+06:30)
+- **Modified**: 2026-09-28 12:55:48 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `2a93df981fbc5c3cdd02f4a95a52bc1a`
+- **SHA256**: `3cb68be8878bc0b9e0d2647541b4429c591f1c7b2787db82b1ed3b1be6e283ad`
+- **Encoding**: ASCII
+
+**File code content:**
+
+```typescript
+import Link from "next/link";
+
+export default function CopyrightPage() {
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-700 flex flex-col">
+      {/* Header Navigation */}
+      <header className="bg-white border-b border-slate-200 px-8 py-4 sticky top-0 z-50 shadow-xs">
+        <div className="max-w-5xl mx-auto flex justify-between items-center">
+          <Link href="/" className="text-xl font-black text-indigo-600 tracking-tight">
+            Prep<span className="text-slate-900">Metre</span>
+          </Link>
+          <div className="flex items-center space-x-6">
+            <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/security" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">
+              Security Disclosure
+            </Link>
+            <Link href="/" className="text-sm font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1 transition-colors">
+              <span>←</span> Return Home
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Container */}
+      <main className="max-w-4xl w-full mx-auto p-6 md:p-12 my-8 bg-white rounded-2xl shadow-sm border border-slate-200 space-y-12">
+        
+        {/* Document Title Header */}
+        <div className="border-b border-slate-100 pb-8">
+          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+            Intellectual Property Framework
+          </span>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mt-4 tracking-tight">
+            Copyright Notice & Intellectual Property Rights
+          </h1>
+          <p className="text-sm text-slate-500 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span><strong>Effective Date:</strong> January 1, 2026</span>
+            <span>•</span>
+            <span><strong>Governing Entity:</strong> Sharma Group IP Legal Division</span>
+            <span>•</span>
+            <span><strong>Version:</strong> 2.0 Enterprise</span>
+          </p>
+        </div>
+
+        {/* Section 1 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">1. Ownership of Platform Content</h2>
+          <p>
+            All content published, displayed, hosted, or streamed on <strong>PrepMetre</strong>—including but not limited to mock test questions, answer keys, diagnostic explanations, structural architecture, database schemas, source code, user interface designs, custom graphics, typography elements, audio files, logos, and trademarks—is the exclusive intellectual property of the <strong>Sharma Group</strong> or its licensed content partners.
+          </p>
+          <p>
+            The compilation of all content on this site is the exclusive property of Sharma Group and is protected under national and international copyright laws, treaties, and conventions.
+          </p>
+        </section>
+
+        {/* Section 2 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">2. Permitted vs. Prohibited Uses</h2>
+          <p>Users are granted a limited, revocable, non-exclusive license to access PrepMetre strictly for personal, non-commercial exam preparation purposes. Under no circumstances may you:</p>
+          <ul className="list-disc pl-5 space-y-2 text-slate-600">
+            <li>Copy, reproduce, republish, upload, post, transmit, or distribute test materials or platform source code in any form without explicit prior written authorization from Sharma Group.</li>
+            <li>Scrape, crawl, harvest, or index question banks or data pages using automated bots, scripts, or spider applications.</li>
+            <li>Resell, license, lease, or sub-license platform test modules or analytical evaluations to third-party institutions or coaching centers.</li>
+          </ul>
+        </section>
+
+        {/* Section 3 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">3. Reporting Copyright Infringements (DMCA Policy)</h2>
+          <p>
+            Sharma Group respects the intellectual property rights of others. If you believe that your copyrighted work has been copied, scraped, or made available on PrepMetre in a way that constitutes copyright infringement, please submit a formal takedown notice to our compliance team with concrete evidence.
+          </p>
+        </section>
+
+        {/* Section 4 */}
+        <section className="space-y-4 text-sm leading-relaxed border-t border-slate-100 pt-8">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">4. Copyright Contact & Licensing Requests</h2>
+          <p>
+            For official licensing permissions, institutional usage inquiries, or copyright infringement notifications, contact our legal team:
+          </p>
+          <div className="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100 flex flex-col space-y-2">
+            <span className="font-bold text-slate-900">Sharma Group Intellectual Property Division</span>
+            <span><strong>Email Support:</strong> <a href="mailto:sharmagroup2026business@gmail.com" className="text-indigo-600 font-semibold underline hover:text-indigo-800 transition-colors">sharmagroup2026business@gmail.com</a></span>
+          </div>
+        </section>
+
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 PrepMetre — A Sharma Group Venture. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
@@ -2213,15 +2336,15 @@ export default function MockTestExecutionPage() {
 ### <a id="📄-app-privacy-page-tsx"></a>📄 `app/privacy/page.tsx`
 
 **File Info:**
-- **Size**: 3.85 KB
+- **Size**: 10.95 KB
 - **Extension**: `.tsx`
 - **Language**: `typescript`
 - **Location**: `app/privacy/page.tsx`
 - **Relative Path**: `app/privacy`
 - **Created**: 2026-09-28 05:50:00 (Asia/Calcutta / GMT+06:30)
-- **Modified**: 2026-09-28 05:50:05 (Asia/Calcutta / GMT+06:30)
-- **MD5**: `e77c86f96bed71894ed36a66d2965de2`
-- **SHA256**: `a2e46bbc702942d158d7ef5c897c425809b187af866dceb1c5144b55d5523e85`
+- **Modified**: 2026-09-28 12:47:08 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `2c66171184910931118324bcd363526e`
+- **SHA256**: `26395c39fcd96419cd893cae5c637bc7df1fce1c745294825a420d37d6f8edf5`
 - **Encoding**: UTF-8
 
 **File code content:**
@@ -2232,51 +2355,266 @@ import Link from "next/link";
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-700 flex flex-col">
-      <header className="bg-white border-b border-slate-200 px-8 py-4">
+      {/* Header Navigation */}
+      <header className="bg-white border-b border-slate-200 px-8 py-4 sticky top-0 z-50 shadow-xs">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-xl font-black text-indigo-600">Prep<span className="text-slate-900">Metre</span></Link>
-          <Link href="/" className="text-sm font-semibold text-slate-600 hover:text-indigo-600">← Return Home</Link>
+          <Link href="/" className="text-xl font-black text-indigo-600 tracking-tight">
+            Prep<span className="text-slate-900">Metre</span>
+          </Link>
+          <div className="flex items-center space-x-6">
+            <Link href="/terms" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">
+              Terms of Service
+            </Link>
+            <Link href="/" className="text-sm font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1 transition-colors">
+              <span>←</span> Return Home
+            </Link>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-4xl w-full mx-auto p-8 my-8 bg-white rounded-2xl shadow-sm border border-slate-200 space-y-8">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Legal Document</span>
-          <h1 className="text-3xl font-black text-slate-900 mt-3">Privacy Policy & Data Governance</h1>
-          <p className="text-sm text-slate-500 mt-1">Effective Date: January 1, 2026 | Sharma Group Governance</p>
+      {/* Main Container */}
+      <main className="max-w-4xl w-full mx-auto p-6 md:p-12 my-8 bg-white rounded-2xl shadow-sm border border-slate-200 space-y-12">
+        
+        {/* Document Title Header */}
+        <div className="border-b border-slate-100 pb-8">
+          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+            Legal Document & Data Governance
+          </span>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mt-4 tracking-tight">
+            Privacy Policy & Data Governance Framework
+          </h1>
+          <p className="text-sm text-slate-500 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span><strong>Effective Date:</strong> January 1, 2026</span>
+            <span>•</span>
+            <span><strong>Governing Entity:</strong> Sharma Group Governance</span>
+            <span>•</span>
+            <span><strong>Version:</strong> 3.4 Enterprise</span>
+          </p>
         </div>
 
+        {/* Section 1 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">1. Commitment to User Privacy</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">1. Commitment to User Privacy & Scope</h2>
           <p>
-            PrepMetre (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;platform&rdquo;), a venture managed under the <strong>Sharma Group</strong>, places paramount importance on the privacy and security of our registered aspirants, institutional partners, and visitors. This Privacy Policy outlines precisely how we collect, process, safeguard, and utilize your personal and academic telemetry data when you interact with our website, mock test interfaces, and administrative portals.
+            PrepMetre (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;platform&rdquo;), a premier educational assessment ecosystem managed under the corporate umbrella of the <strong>Sharma Group</strong>, places paramount importance on the privacy, confidentiality, and security of our registered aspirants, institutional partners, educators, and platform visitors. 
+          </p>
+          <p>
+            This Privacy Policy outlines precisely how we collect, process, safeguard, store, and utilize your personal, academic, and technical telemetry data when you interact with our website, mock test interfaces, real-time analytics dashboards, mobile applications, and administrative portals. By accessing or utilizing PrepMetre, you acknowledge that you have read, understood, and agreed to the data practices articulated within this governance framework.
           </p>
         </section>
 
+        {/* Section 2 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">2. Information We Collect</h2>
-          <p>To deliver personalized mock test analytics and maintain platform integrity, we gather the following data categories:</p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li><strong>Account Credentials:</strong> Full name, verified email address, encrypted authentication hashes, and user roles (Student or Administrator).</li>
-            <li><strong>Assessment Telemetry:</strong> Question response selections, time elapsed per question, score summaries, and historical test performance metrics.</li>
-            <li><strong>Technical Metadata:</strong> IP addresses, browser configurations, session timestamps, and device identifiers utilized strictly for anti-cheat and security auditing.</li>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">2. Information Categories We Collect</h2>
+          <p>To deliver precise, personalized mock test analytics, ensure fair testing environments, and maintain platform integrity, we gather distinct categories of data:</p>
+          
+          <div className="space-y-3 pl-2">
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+              <strong className="text-slate-900 block mb-1">A. Account & Registration Credentials</strong>
+              <p className="text-slate-600">Full legal name, verified email address, encrypted authentication hashes (passwords), telephone numbers (if 2FA is enabled), profile pictures, and designated user roles (Student, Educator, or Institutional Administrator).</p>
+            </div>
+
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+              <strong className="text-slate-900 block mb-1">B. Assessment & Performance Telemetry</strong>
+              <p className="text-slate-600">Question response selections, precise time elapsed per question, section-wise score summaries, accuracy percentages, historical test performance curves, and comparative percentile benchmarks.</p>
+            </div>
+
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+              <strong className="text-slate-900 block mb-1">C. Technical Metadata & Security Telemetry</strong>
+              <p className="text-slate-600">IP addresses, browser types and versions, operating system details, session timestamps, device hardware identifiers, and browser focus/blur events utilized strictly for anti-cheat verification and platform security auditing.</p>
+            </div>
+
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+              <strong className="text-slate-900 block mb-1">D. Financial & Transactional Data</strong>
+              <p className="text-slate-600">If you subscribe to premium test tiers, payment processing is handled through PCI-DSS compliant third-party gateways (e.g., Stripe, Razorpay). PrepMetre stores transaction IDs, invoice logs, and subscription statuses but does not store raw credit/debit card numbers or CVVs.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 3 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">3. How We Utilize Collected Information</h2>
+          <p>We process your information strictly for legitimate operational, educational, and security purposes, including:</p>
+          <ul className="list-disc pl-5 space-y-2 text-slate-600">
+            <li>Generating comprehensive, individualized performance scorecards and diagnostic analytical insights.</li>
+            <li>Maintaining account security, verifying user identities, and preventing credential sharing or multi-login exploitation.</li>
+            <li>Enforcing strict proctoring and anti-cheat protocols during live timed assessments.</li>
+            <li>Sending critical transactional notices, platform updates, test schedule reminders, and security alerts.</li>
+            <li>Conducting internal algorithmic research and aggregated statistical analysis to improve question bank calibration and test difficulty scaling.</li>
           </ul>
         </section>
 
+        {/* Section 4 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">3. Data Security & Anti-Cheat Protocols</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">4. Data Security & Advanced Anti-Cheat Protocols</h2>
           <p>
-            All test content displayed on PrepMetre is protected under intellectual property laws. Our platform employs client-side restriction scripts (such as context-menu disabling, text selection blocking, and persistent watermark overlays) to prevent unauthorized screen captures or content scraping. User data is stored in encrypted PostgreSQL databases secured via industry-standard protocols.
+            All test content, question banks, and algorithmic evaluations displayed on PrepMetre are protected under international intellectual property laws and Sharma Group proprietary rights. 
+          </p>
+          <p>
+            Our platform employs robust client-side restriction scripts—including context-menu disabling, text-selection blocking, full-screen enforcement, clipboard event monitoring, and dynamic persistent watermark overlays—to prevent unauthorized screen captures, content scraping, or test leaks. 
+          </p>
+          <p>
+            User telemetry and account databases are housed in encrypted PostgreSQL clusters secured via TLS 1.3 encryption in transit and AES-256 encryption at rest. Access to production servers is strictly limited to authorized Sharma Group security personnel under strict role-based access control (RBAC).
           </p>
         </section>
 
+        {/* Section 5 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">4. Contact Regarding Privacy Concerns</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">5. Cookie Policy & Tracking Technologies</h2>
           <p>
-            If you have questions, data deletion requests, or privacy inquiries regarding our practices, please contact our Compliance Officer directly at <a href="mailto:sharmagroup2026business@gmail.com" className="text-indigo-600 font-semibold underline">sharmagroup2026business@gmail.com</a>.
+            PrepMetre utilizes essential cookies, local storage tokens, and session identifiers to maintain your login state, remember dashboard preferences, and preserve active test session states in case of sudden network disconnections. We do not utilize third-party advertising trackers or sell behavioral telemetry data to marketing brokers.
           </p>
         </section>
+
+        {/* Section 6 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">6. Data Retention & Account Deletion Rights</h2>
+          <p>
+            We retain your personal data and assessment telemetry for as long as your account remains active or as needed to provide you platform services. If you wish to close your account or request the permanent erasure of your personal data from our servers, you may submit a formal request to our compliance team. Upon verification, all identifiable telemetry will be purged within 30 business days, subject to legal or financial record-keeping obligations.
+          </p>
+        </section>
+
+        {/* Section 7 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">7. Compliance & Regulatory Frameworks</h2>
+          <p>
+            As a global educational platform under Sharma Group, PrepMetre aligns its operational workflows with major global privacy expectations, including the General Data Protection Regulation (GDPR) for European users, the California Consumer Privacy Act (CCPA) for California residents, and applicable digital governance standards in South Asia.
+          </p>
+        </section>
+
+        {/* Section 8 */}
+        <section className="space-y-4 text-sm leading-relaxed border-t border-slate-100 pt-8">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">8. Contact Regarding Privacy Concerns</h2>
+          <p>
+            If you have questions, data access requests, compliance inquiries, or grievance submissions regarding our privacy practices, please contact our Compliance Officer directly:
+          </p>
+          <div className="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100 flex flex-col space-y-2">
+            <span className="font-bold text-slate-900">Sharma Group Data Compliance Division</span>
+            <span><strong>Email Support:</strong> <a href="mailto:sharmagroup2026business@gmail.com" className="text-indigo-600 font-semibold underline hover:text-indigo-800 transition-colors">sharmagroup2026business@gmail.com</a></span>
+            <span><strong>Response Time Commitment:</strong> Within 48 to 72 business hours.</span>
+          </div>
+        </section>
+
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 PrepMetre — A Sharma Group Venture. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
+```
+
+---
+
+### <a id="📄-app-security-page-tsx"></a>📄 `app/security/page.tsx`
+
+**File Info:**
+- **Size**: 5.37 KB
+- **Extension**: `.tsx`
+- **Language**: `typescript`
+- **Location**: `app/security/page.tsx`
+- **Relative Path**: `app/security`
+- **Created**: 2026-09-28 12:56:13 (Asia/Calcutta / GMT+06:30)
+- **Modified**: 2026-09-28 12:56:15 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `c5be73b1611153f997527df8a98d6780`
+- **SHA256**: `25cd4ebe560f8069ff0bfe5f0327482eaee2fcaa0255ffee2f18c87653f8d716`
+- **Encoding**: ASCII
+
+**File code content:**
+
+```typescript
+import Link from "next/link";
+
+export default function SecurityPage() {
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-700 flex flex-col">
+      {/* Header Navigation */}
+      <header className="bg-white border-b border-slate-200 px-8 py-4 sticky top-0 z-50 shadow-xs">
+        <div className="max-w-5xl mx-auto flex justify-between items-center">
+          <Link href="/" className="text-xl font-black text-indigo-600 tracking-tight">
+            Prep<span className="text-slate-900">Metre</span>
+          </Link>
+          <div className="flex items-center space-x-6">
+            <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/copyright" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">
+              Copyright Notice
+            </Link>
+            <Link href="/" className="text-sm font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1 transition-colors">
+              <span>←</span> Return Home
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Container */}
+      <main className="max-w-4xl w-full mx-auto p-6 md:p-12 my-8 bg-white rounded-2xl shadow-sm border border-slate-200 space-y-12">
+        
+        {/* Document Title Header */}
+        <div className="border-b border-slate-100 pb-8">
+          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+            Platform Security & Defense
+          </span>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mt-4 tracking-tight">
+            Security Disclosure & Vulnerability Reporting
+          </h1>
+          <p className="text-sm text-slate-500 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span><strong>Effective Date:</strong> January 1, 2026</span>
+            <span>•</span>
+            <span><strong>Governing Entity:</strong> Sharma Group Security Operations Center</span>
+            <span>•</span>
+            <span><strong>Version:</strong> 3.1 Enterprise</span>
+          </p>
+        </div>
+
+        {/* Section 1 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">1. Commitment to Platform Security</h2>
+          <p>
+            At <strong>PrepMetre</strong>, a venture managed under the <strong>Sharma Group</strong>, we maintain a proactive security posture to safeguard student credentials, assessment items, performance telemetry databases, and real-time proctoring systems against evolving cyber threats.
+          </p>
+        </section>
+
+        {/* Section 2 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">2. Technical Safeguards & Anti-Cheat Controls</h2>
+          <p>Our engineering architecture implements layered security protocols:</p>
+          <ul className="list-disc pl-5 space-y-2 text-slate-600">
+            <li><strong>Data Encryption:</strong> All database storage is encrypted via AES-256 at rest, and all transit communications utilize TLS 1.3 protocol standards.</li>
+            <li><strong>Proctoring & Telemetry Audits:</strong> Client-side triggers record focus loss, window resizing, and multi-device authentications to protect assessment integrity.</li>
+            <li><strong>Access Control:</strong> Strict Role-Based Access Control (RBAC) ensures administrative privileges are tightly restricted.</li>
+          </ul>
+        </section>
+
+        {/* Section 3 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">3. Responsible Disclosure Policy</h2>
+          <p>
+            If you are a security researcher or platform user who has discovered a potential security vulnerability, bug, or exposure, we appreciate your cooperation through responsible disclosure. Please do not exploit the vulnerability, access private user telemetry, or disrupt live mock test sessions.
+          </p>
+        </section>
+
+        {/* Section 4 */}
+        <section className="space-y-4 text-sm leading-relaxed border-t border-slate-100 pt-8">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">4. Vulnerability Reporting & Contact</h2>
+          <p>
+            Report security vulnerabilities or coordinate disclosure procedures directly with our cybersecurity response team:
+          </p>
+          <div className="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100 flex flex-col space-y-2">
+            <span className="font-bold text-slate-900">Sharma Group Security Operations Center (SOC)</span>
+            <span><strong>Secure Email:</strong> <a href="mailto:sharmagroup2026business@gmail.com" className="text-indigo-600 font-semibold underline hover:text-indigo-800 transition-colors">sharmagroup2026business@gmail.com</a></span>
+          </div>
+        </section>
+
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 PrepMetre — A Sharma Group Venture. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
@@ -2287,15 +2625,15 @@ export default function PrivacyPage() {
 ### <a id="📄-app-terms-page-tsx"></a>📄 `app/terms/page.tsx`
 
 **File Info:**
-- **Size**: 3.3 KB
+- **Size**: 10.27 KB
 - **Extension**: `.tsx`
 - **Language**: `typescript`
 - **Location**: `app/terms/page.tsx`
 - **Relative Path**: `app/terms`
 - **Created**: 2026-09-28 06:01:01 (Asia/Calcutta / GMT+06:30)
-- **Modified**: 2026-09-28 06:01:03 (Asia/Calcutta / GMT+06:30)
-- **MD5**: `2f4f4441c898af6b266baaa3b4a4745a`
-- **SHA256**: `94c1030b985c0d90c92cedb4e980cd7fe6f35e051da204a0ed406c259ddc00a7`
+- **Modified**: 2026-09-28 12:48:27 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `9b1199766b7673f78d32e1d1b83a4cd6`
+- **SHA256**: `64594b8db5b1213409015b0de7b1486089326d14f3981b52e14cc1f26ceb663b`
 - **Encoding**: UTF-8
 
 **File code content:**
@@ -2306,48 +2644,144 @@ import Link from "next/link";
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-700 flex flex-col">
-      <header className="bg-white border-b border-slate-200 px-8 py-4">
+      {/* Header Navigation */}
+      <header className="bg-white border-b border-slate-200 px-8 py-4 sticky top-0 z-50 shadow-xs">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-xl font-black text-indigo-600">Prep<span className="text-slate-900">Metre</span></Link>
-          <Link href="/" className="text-sm font-semibold text-slate-600 hover:text-indigo-600">← Return Home</Link>
+          <Link href="/" className="text-xl font-black text-indigo-600 tracking-tight">
+            Prep<span className="text-slate-900">Metre</span>
+          </Link>
+          <div className="flex items-center space-x-6">
+            <Link href="/privacy" className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/" className="text-sm font-semibold text-slate-600 hover:text-indigo-600 flex items-center gap-1 transition-colors">
+              <span>←</span> Return Home
+            </Link>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-4xl w-full mx-auto p-8 my-8 bg-white rounded-2xl shadow-sm border border-slate-200 space-y-8">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Legal Framework</span>
-          <h1 className="text-3xl font-black text-slate-900 mt-3">Terms & Conditions of Service</h1>
-          <p className="text-sm text-slate-500 mt-1">Please read these terms carefully before accessing PrepMetre mock tests.</p>
+      {/* Main Container */}
+      <main className="max-w-4xl w-full mx-auto p-6 md:p-12 my-8 bg-white rounded-2xl shadow-sm border border-slate-200 space-y-12">
+        
+        {/* Document Title Header */}
+        <div className="border-b border-slate-100 pb-8">
+          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+            Legal Framework & Agreement
+          </span>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mt-4 tracking-tight">
+            Terms & Conditions of Service
+          </h1>
+          <p className="text-sm text-slate-500 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span><strong>Effective Date:</strong> January 1, 2026</span>
+            <span>•</span>
+            <span><strong>Governing Entity:</strong> Sharma Group Legal Division</span>
+            <span>•</span>
+            <span><strong>Version:</strong> 4.0 Enterprise</span>
+          </p>
         </div>
 
+        {/* Section 1 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">1. Acceptance of Terms</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">1. Acceptance of Terms & Legal Binding</h2>
           <p>
-            By accessing, registering on, or utilizing <strong>PrepMetre</strong> (operated by the <strong>Sharma Group</strong>), you enter into a binding legal agreement to comply with these Terms and Conditions. If you do not agree with any provision herein, you must immediately cease usage of the platform and its associated services.
+            By accessing, browsing, registering on, or utilizing <strong>PrepMetre</strong> (&ldquo;the Platform&rdquo;), a premier educational assessment ecosystem operated under the corporate management of the <strong>Sharma Group</strong> (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), you enter into a binding legal agreement to comply with and be bound by these Terms and Conditions of Service. 
+          </p>
+          <p>
+            If you are accessing or using the platform on behalf of a school, coaching institution, or corporate entity, you represent and warrant that you possess the legal authority to bind that entity to these terms. If you do not agree with any provision, clause, or restriction contained herein, you must immediately cease all access, registration, and usage of PrepMetre and its associated testing interfaces.
           </p>
         </section>
 
+        {/* Section 2 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">2. Intellectual Property & Copyright Protection</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">2. Account Registration, Eligibility & Security</h2>
+          <p>To access mock tests, performance analytics, and specialized preparation pathways, users must register for a verified account. The following conditions govern account creation and management:</p>
+          <div className="space-y-3 pl-2">
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+              <strong className="text-slate-900 block mb-1">A. Accuracy of Information</strong>
+              <p className="text-slate-600">You agree to provide true, accurate, current, and complete registration data during account setup and to keep your profile information updated.</p>
+            </div>
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+              <strong className="text-slate-900 block mb-1">B. Credential Confidentiality</strong>
+              <p className="text-slate-600">You are entirely responsible for maintaining the strict confidentiality of your password, authentication tokens, and account access. Account sharing, multi-user logins, and credential trading are strictly prohibited.</p>
+            </div>
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+              <strong className="text-slate-900 block mb-1">C. Account Suspension</strong>
+              <p className="text-slate-600">Sharma Group reserves the right to suspend or terminate any account immediately without prior notice if suspicious activity, automated script usage, or security breaches are detected.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 3 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">3. Intellectual Property, Content & Copyright Protection</h2>
           <p>
-            All mock test questions, analytical explanations, software code, graphic layouts, logos, and trademarks displayed on PrepMetre are the exclusive intellectual property of the Sharma Group. Unauthorized reproduction, redistribution, screenshotting for public distribution, scraping, or commercial resale of our test materials is strictly prohibited and will be prosecuted under applicable copyright and cyber law statutes.
+            All mock test questions, diagnostic modules, analytical explanations, software code, user interface layouts, graphic assets, brand logos, and trademarks displayed on PrepMetre are the exclusive intellectual property of the Sharma Group.
+          </p>
+          <p>
+            Unauthorized reproduction, redistribution, screenshotting for public distribution, scraping, reverse engineering, decompilation, or commercial resale of our test materials is strictly prohibited. Any infringement will be prosecuted to the maximum extent permitted under applicable national and international copyright, intellectual property, and cyber law statutes.
           </p>
         </section>
 
+        {/* Section 4 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">3. User Conduct & Anti-Cheat Compliance</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">4. User Conduct & Strict Anti-Cheat Compliance</h2>
           <p>
-            Users agree not to attempt to bypass anti-cheat protections, tamper with test timers, or utilize automated scripts/bots during active assessments. Any violation will result in immediate termination of the user session and permanent banishment from the platform.
+            PrepMetre maintains an uncompromising environment of academic integrity. Users explicitly agree to the following behavioral standards during active assessments:
+          </p>
+          <ul className="list-disc pl-5 space-y-2 text-slate-600">
+            <li>Users shall not attempt to bypass client-side or server-side anti-cheat restrictions, fullscreen enforcement protocols, or context-menu locks.</li>
+            <li>The deployment of automated bots, macro scripts, browser extensions designed to extract text, or remote assistance software during timed mock tests is strictly banned.</li>
+            <li>Violation of anti-cheat telemetry rules will trigger an instant test session abort, invalidation of scorecards, and permanent banishment from the PrepMetre ecosystem.</li>
+          </ul>
+        </section>
+
+        {/* Section 5 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">5. Subscription Fees, Billing & Refund Policies</h2>
+          <p>
+            Certain advanced mock test tiers, institutional analytics packages, and specialized preparation modules require paid subscriptions. All transactions are securely handled through PCI-DSS compliant third-party payment gateways. Unless explicitly stated otherwise in promotional offers, all subscription fees are non-refundable once test modules have been accessed or unlocked. Subscription pricing is subject to change upon advance notice published on the platform.
           </p>
         </section>
 
+        {/* Section 6 */}
         <section className="space-y-4 text-sm leading-relaxed">
-          <h2 className="text-lg font-bold text-slate-800">4. Official Business Correspondence</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">6. Limitation of Liability & Educational Disclaimers</h2>
           <p>
-            All formal notices, legal queries, and partnership proposals must be directed to our official corporate email address: <a href="mailto:sharmagroup2026business@gmail.com" className="text-indigo-600 font-semibold underline">sharmagroup2026business@gmail.com</a>.
+            PrepMetre is designed as a preparatory and diagnostic simulation tool. While Sharma Group endeavors to maintain high standards of question accuracy and simulation fidelity, we do not guarantee exact score correlation with official competitive examinations. 
+          </p>
+          <p>
+            Under no circumstances shall Sharma Group, its directors, employees, partners, or affiliates be held liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of, or inability to use, the platform services.
           </p>
         </section>
+
+        {/* Section 7 */}
+        <section className="space-y-4 text-sm leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">7. Modifications to Terms of Service</h2>
+          <p>
+            Sharma Group reserves the right to modify, amend, update, or replace these Terms and Conditions at any time at its sole discretion. Continued usage of PrepMetre following the publication of revised terms constitutes full acceptance of those changes. Users are advised to review this page periodically.
+          </p>
+        </section>
+
+        {/* Section 8 */}
+        <section className="space-y-4 text-sm leading-relaxed border-t border-slate-100 pt-8">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">8. Official Business Correspondence & Legal Notices</h2>
+          <p>
+            All formal legal notices, partnership inquiries, and business correspondence must be directed to our official corporate email address:
+          </p>
+          <div className="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100 flex flex-col space-y-2">
+            <span className="font-bold text-slate-900">Sharma Group Legal & Administrative Division</span>
+            <span><strong>Email Support:</strong> <a href="mailto:sharmagroup2026business@gmail.com" className="text-indigo-600 font-semibold underline hover:text-indigo-800 transition-colors">sharmagroup2026business@gmail.com</a></span>
+            <span><strong>Response Time Commitment:</strong> Within 48 to 72 business hours.</span>
+          </div>
+        </section>
+
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 PrepMetre — A Sharma Group Venture. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
@@ -2625,9 +3059,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 - **Location**: `app/page.tsx`
 - **Relative Path**: `app`
 - **Created**: 2026-09-28 04:00:48 (Asia/Calcutta / GMT+06:30)
-- **Modified**: 2026-09-28 07:54:19 (Asia/Calcutta / GMT+06:30)
-- **MD5**: `5d295b8019991056e162f28230fcc782`
-- **SHA256**: `43dfc7b0e12424d8ac9987ecbd95faeaa48cda646103a04881144c440e09bebd`
+- **Modified**: 2026-09-28 12:57:34 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `a14c8e927c826ed861d763009a4afbb9`
+- **SHA256**: `f59e61a87b8076dd3abab0430d89c40d9f30285c1a6795b2eee9cdd55bda7f68`
 - **Encoding**: UTF-8
 
 **File code content:**
@@ -2853,8 +3287,8 @@ export default function Home() {
             <ul className="space-y-2 text-xs text-slate-400">
               <li><Link href="/privacy" className="hover:text-indigo-400 transition">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-indigo-400 transition">Terms & Conditions</Link></li>
-              <li><Link href="/privacy" className="hover:text-indigo-400 transition">Copyright Notice</Link></li>
-              <li><Link href="/privacy" className="hover:text-indigo-400 transition">Security Disclosure</Link></li>
+              <li><Link href="/copyright" className="hover:text-indigo-400 transition">Copyright Notice</Link></li>
+              <li><Link href="/security" className="hover:text-indigo-400 transition">Security Disclosure</Link></li>
             </ul>
           </div>
 
