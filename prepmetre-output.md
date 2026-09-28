@@ -3,7 +3,7 @@
 ## 📊 Project Information
 
 - **Project Name**: `prepmetre`
-- **Generated On**: 2026-09-28 13:42:53 (Asia/Calcutta / GMT+06:30)
+- **Generated On**: 2026-09-28 14:11:26 (Asia/Calcutta / GMT+06:30)
 - **Total Files Processed**: 45
 - **Export Tool**: Easy Whole Project to Single Text File for LLMs v1.1.0
 - **Tool Author**: Jota / José Guilherme Pandolfi
@@ -28,7 +28,7 @@
 │   ├── 📁 api/
 │   │   ├── 📁 auth/
 │   │   │   ├── 📁 [...nextauth]/
-│   │   │   │   └── 📄 route.js (631 B)
+│   │   │   │   └── 📄 route.js (558 B)
 │   │   │   └── 📁 register/
 │   │   │       └── 📄 route.ts (1.23 KB)
 │   │   └── 📁 generate-questions/
@@ -407,15 +407,15 @@ export default function AdminPage() {
 ### <a id="📄-app-api-auth-nextauth-route-js"></a>📄 `app/api/auth/[...nextauth]/route.js`
 
 **File Info:**
-- **Size**: 631 B
+- **Size**: 558 B
 - **Extension**: `.js`
 - **Language**: `javascript`
 - **Location**: `app/api/auth/[...nextauth]/route.js`
 - **Relative Path**: `app/api/auth/[...nextauth]`
 - **Created**: 2026-09-28 06:51:51 (Asia/Calcutta / GMT+06:30)
-- **Modified**: 2026-09-28 09:39:25 (Asia/Calcutta / GMT+06:30)
-- **MD5**: `afc91c3a8c369df4c3caca51bf4d22a5`
-- **SHA256**: `a19375fc1df40c2be723a3d87c5bb30dffa515e27c8f0763cba5eac1e9f7651c`
+- **Modified**: 2026-09-28 14:11:25 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `5a5493634d613baaaca81a335e16d350`
+- **SHA256**: `c0d92a31bdf4e2b7915f1a87673b41cb67057521f83b7c28b3d1760cd68d47a6`
 - **Encoding**: ASCII
 
 **File code content:**
@@ -424,25 +424,23 @@ export default function AdminPage() {
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-prepmetre-2026",
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.sub;
+        session.user.id = token.sub as string;
       }
       return session;
     },
   },
-};
-
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST };
 ```
