@@ -1,13 +1,61 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import Link from "next/link";
 
-export default function AdminPage() {
-  const [selectedExam, setSelectedExam] = useState("jee");
-  const [questionText, setQuestionText] = useState("");
-  const [options, setOptions] = useState(["", "", "", ""]);
-  const [correctAnswer, setCorrectAnswer] = useState(0);
-  const [successMessage, setSuccessMessage] = useState("");
+interface UserSession {
+  email?: string;
+  name?: string;
+}
+
+export default function AdminPage(): ReactElement {
+  const [user, setUser] = useState<UserSession | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const [selectedExam, setSelectedExam] = useState<string>("jee");
+  const [questionText, setQuestionText] = useState<string>("");
+  const [options, setOptions] = useState<string[]>(["", "", "", ""]);
+  const [correctAnswer, setCorrectAnswer] = useState<number>(0);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+
+  useEffect(() => {
+    const match = document.cookie.match(new RegExp('(^| )prepmetre_user=([^;]+)'));
+    if (match) {
+      try {
+        setUser(JSON.parse(decodeURIComponent(match[2])));
+      } catch (e) {
+        setUser(null);
+      }
+    }
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">Loading Security Protocol...</div>;
+  }
+
+  const ADMIN_EMAIL = "ashutoshsharma61667@gmail.com";
+
+  if (!user || user.email !== ADMIN_EMAIL) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-6 text-center font-sans">
+        <div className="bg-rose-500/10 border border-rose-500/20 p-8 rounded-3xl max-w-md w-full backdrop-blur-xl shadow-2xl">
+          <span className="text-5xl mb-4 block">🛡️</span>
+          <h1 className="text-2xl font-black text-rose-400 mb-2">Restricted Area</h1>
+          <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+            This administrative telemetry and question bank control center is strictly locked. Unauthorized attempts are logged.
+          </p>
+          <div className="space-y-3">
+            <a href="/api/auth/google" className="block w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow-lg">
+              Sign in with Master Admin Account
+            </a>
+            <Link href="/" className="block w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold rounded-xl text-xs border border-slate-800 transition">
+              ← Return to Student Portal
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleOptionChange = (index: number, value: string) => {
     const updatedOptions = [...options];
@@ -19,7 +67,6 @@ export default function AdminPage() {
     e.preventDefault();
     if (!questionText.trim()) return;
 
-    // Payload ready for database injection or API dispatch
     const newQuestionPayload = {
       exam: selectedExam,
       question: questionText,
@@ -28,10 +75,9 @@ export default function AdminPage() {
       createdAt: new Date().toISOString(),
     };
 
-    console.log("Published Question to Live Test Series:", newQuestionPayload);
+    console.log("Published Question:", newQuestionPayload);
     setSuccessMessage(`Successfully injected question into ${selectedExam.toUpperCase()} live test series!`);
     
-    // Reset form fields
     setQuestionText("");
     setOptions(["", "", "", ""]);
     setCorrectAnswer(0);
@@ -45,9 +91,9 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div>
             <h1 className="font-black text-indigo-400 text-xl">PrepMetre Admin Console</h1>
-            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Sharma Group Governance</p>
+            <p className="text-xs text-indigo-300 font-semibold mt-0.5">Authenticated as Admin: {user.email}</p>
           </div>
-          <Link href="/" className="text-sm font-bold text-slate-300 hover:text-white bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">
+          <Link href="/" className="text-sm font-bold text-slate-300 hover:text-white bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 transition">
             Exit to Student Portal
           </Link>
         </div>
@@ -88,7 +134,7 @@ export default function AdminPage() {
                 rows={3} 
                 value={questionText}
                 onChange={(e) => setQuestionText(e.target.value)}
-                placeholder="Enter complete question text with equations or formatting..." 
+                placeholder="Enter complete question text..." 
                 required
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-indigo-500" 
               />
@@ -127,10 +173,7 @@ export default function AdminPage() {
               </select>
             </div>
 
-            <button 
-              type="submit" 
-              className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-indigo-600/30 transition transform hover:-translate-y-0.5"
-            >
+            <button type="submit" className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm shadow-lg transition">
               Publish Question to Live Student Portal 🚀
             </button>
           </form>

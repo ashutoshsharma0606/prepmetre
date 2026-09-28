@@ -1,13 +1,32 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import Image from "next/image";
 
-export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+interface Category {
+  id: string;
+  title: string;
+  slug: string;
+  badge: string;
+  count: string;
+  exams: string[];
+  color: string;
+  icon: string;
+}
+
+interface UserSession {
+  email?: string;
+  name?: string;
+}
+
+export default function Home(): ReactElement {
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  
+  const [user, setUser] = useState<UserSession | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const [selectedTestItem, setSelectedTestItem] = useState<string | null>(null);
 
   useEffect(() => {
     if (darkMode) {
@@ -15,9 +34,19 @@ export default function Home() {
     } else {
       document.documentElement.classList.remove("dark");
     }
+
+    const match = document.cookie.match(new RegExp('(^| )prepmetre_user=([^;]+)'));
+    if (match && match[2]) {
+      try {
+        const parsedUser: UserSession = JSON.parse(decodeURIComponent(match[2]));
+        setUser(parsedUser);
+      } catch (e) {
+        setUser(null);
+      }
+    }
   }, [darkMode]);
 
-  const mainCategories = [
+  const mainCategories: Category[] = [
     { id: "jee", title: "Engineering (IIT-JEE)", slug: "jee", badge: "Core Engineering", count: "140+ Tests", exams: ["JEE Advanced Full Mocks", "JEE Mains Chapterwise Practice", "Previous Year Question Papers"], color: "from-blue-600 to-indigo-600", icon: "⚡" },
     { id: "neet", title: "Medical (NEET-UG)", slug: "neet", badge: "Medical Stream", count: "120+ Tests", exams: ["NEET Biology Grand Tests", "Physics & Chemistry Unit Mocks", "Full Syllabus PCB Papers"], color: "from-emerald-600 to-teal-600", icon: "🧬" },
     { id: "upsc", title: "UPSC Civil Services", slug: "upsc", badge: "Civil Services", count: "95+ Tests", exams: ["IAS Prelims GS Paper 1", "CSAT Quantitative & Reasoning", "Weekly Current Affairs Series"], color: "from-amber-600 to-orange-600", icon: "🏛️" },
@@ -33,14 +62,22 @@ export default function Home() {
     cat.exams.some(ex => ex.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  const handleAttemptClick = (categoryTitle: string) => {
+    if (!user) {
+      setSelectedTestItem(categoryTitle);
+      setShowAuthModal(true);
+    } else {
+      window.location.href = `/tests`;
+    }
+  };
+
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-slate-900"}`}>
       
       {/* Navigation Bar */}
-      <header className={`sticky top-0 z-50 backdrop-blur-md border-b px-6 sm:px-10 py-4 transition-colors ${darkMode ? "bg-slate-900/90 border-slate-800" : "bg-white/95 border-slate-200 shadow-xs"}`}>
+      <header className={`sticky top-0 z-50 backdrop-blur-md border-b px-6 sm:px-10 py-4 transition-colors ${darkMode ? "bg-slate-900/90 border-slate-800" : "bg-white/95 border-slate-200"}`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            {/* prepmetre.png Logo Display */}
             <div className="relative w-10 h-10 overflow-hidden rounded-xl shadow-md border border-indigo-500/20 bg-white">
               <Image 
                 src="/prepmetre.png" 
@@ -67,19 +104,28 @@ export default function Home() {
               {darkMode ? "☀️ Light" : "🌙 Dark"}
             </button>
 
-            <Link 
-              href="/admin" 
-              className={`hidden sm:inline-block text-xs font-semibold px-3 py-2 rounded-xl transition ${darkMode ? "text-slate-300 hover:bg-slate-800" : "text-slate-600 hover:bg-slate-100"}`}
-            >
-              Admin Portal
-            </Link>
+            {user?.email === "ashutoshsharma61667@gmail.com" && (
+              <Link 
+                href="/admin" 
+                className="hidden sm:inline-block text-xs font-bold px-3.5 py-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition"
+              >
+                🔒 Admin Portal
+              </Link>
+            )}
 
-            <button 
-              onClick={() => signIn("google")}
-              className="flex items-center space-x-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5"
-            >
-              <span>Sign in with Google</span>
-            </button>
+            {user ? (
+              <div className="flex items-center space-x-2 bg-indigo-500/10 border border-indigo-500/30 px-3 py-1.5 rounded-xl">
+                <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                <span className="text-xs font-bold text-indigo-300 truncate max-w-[120px]">{user.name || user.email}</span>
+              </div>
+            ) : (
+              <a 
+                href="/api/auth/google"
+                className="flex items-center space-x-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5"
+              >
+                <span>Sign in with Google</span>
+              </a>
+            )}
           </div>
         </div>
       </header>
@@ -120,7 +166,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
           <div>
             <h3 className={`text-2xl font-black ${darkMode ? "text-white" : "text-slate-900"}`}>Explore Exam Test Series</h3>
-            <p className={`text-xs sm:text-sm mt-1 ${darkMode ? "text-slate-400" : "text-slate-600"}`}>Select an exam category to browse available mock test papers and question banks.</p>
+            <p className={`text-xs sm:text-sm mt-1 ${darkMode ? "text-slate-400" : "text-slate-600"}`}>Browse available mock test papers freely. Sign in required to track scores and leaderboards.</p>
           </div>
           
           <div className="flex flex-wrap gap-2">
@@ -174,25 +220,49 @@ export default function Home() {
                   </ul>
                 </div>
 
-                <Link 
-                  href={`/tests/${cat.slug}`} 
+                <button 
+                  onClick={() => handleAttemptClick(cat.title)}
                   className={`w-full text-center py-3 font-bold rounded-xl text-xs transition-all shadow-sm border ${
                     darkMode ? "bg-slate-950 text-white border-slate-800 hover:bg-indigo-600 hover:border-indigo-600" : "bg-slate-900 text-white border-slate-900 hover:bg-indigo-600 hover:border-indigo-600"
                   }`}
                 >
-                  View Test Series →
-                </Link>
+                  Attempt Test Series →
+                </button>
               </div>
           ))}
         </div>
       </main>
+
+      {/* Authentication Modal Gate */}
+      {showAuthModal && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
+            <button 
+              onClick={() => setShowAuthModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white text-sm bg-slate-800/50 w-8 h-8 rounded-full flex items-center justify-center"
+            >
+              ✕
+            </button>
+            <span className="text-4xl mb-3 block">📊</span>
+            <h3 className="text-xl font-black text-white mb-2">Sign In Required</h3>
+            <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+              To attempt tests for <strong className="text-slate-200">{selectedTestItem}</strong>, record your scores, view national leaderboards, and save performance history, please sign in securely.
+            </p>
+            <a
+              href="/api/auth/google"
+              className="block w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold rounded-xl text-xs transition shadow-lg shadow-indigo-600/20"
+            >
+              Sign In with Google
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="bg-slate-900 border-t border-slate-800 text-slate-300 pt-12 pb-8 px-6 sm:px-10 mt-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              {/* Footer Logo Display */}
               <div className="relative w-8 h-8 overflow-hidden rounded-lg bg-white shadow border border-indigo-500/20">
                 <Image src="/prepmetre.png" alt="PrepMetre Logo" fill className="object-contain p-0.5" />
               </div>
@@ -206,10 +276,10 @@ export default function Home() {
           <div>
             <h5 className="font-bold text-white text-sm mb-3">Top Examinations</h5>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li><Link href="/tests/jee" className="hover:text-indigo-400 transition">IIT-JEE Advanced & Mains</Link></li>
-              <li><Link href="/tests/neet" className="hover:text-indigo-400 transition">NEET-UG Medical Test Series</Link></li>
-              <li><Link href="/tests/upsc" className="hover:text-indigo-400 transition">UPSC Civil Services Prelims</Link></li>
-              <li><Link href="/tests/ssc" className="hover:text-indigo-400 transition">SSC CGL, CHSL & CPO</Link></li>
+              <li><span className="hover:text-indigo-400 cursor-pointer">IIT-JEE Advanced & Mains</span></li>
+              <li><span className="hover:text-indigo-400 cursor-pointer">NEET-UG Medical Test Series</span></li>
+              <li><span className="hover:text-indigo-400 cursor-pointer">UPSC Civil Services Prelims</span></li>
+              <li><span className="hover:text-indigo-400 cursor-pointer">SSC CGL, CHSL & CPO</span></li>
             </ul>
           </div>
 
