@@ -3,7 +3,7 @@
 ## 📊 Project Information
 
 - **Project Name**: `prepmetre`
-- **Generated On**: 2026-09-28 15:30:51 (Asia/Calcutta / GMT+06:30)
+- **Generated On**: 2026-09-28 15:39:21 (Asia/Calcutta / GMT+06:30)
 - **Total Files Processed**: 45
 - **Export Tool**: Easy Whole Project to Single Text File for LLMs v1.1.0
 - **Tool Author**: Jota / José Guilherme Pandolfi
@@ -28,7 +28,7 @@
 │   ├── 📁 api/
 │   │   ├── 📁 auth/
 │   │   │   ├── 📁 [...nextauth]/
-│   │   │   │   └── 📄 route.js (609 B)
+│   │   │   │   └── 📄 route.js (415 B)
 │   │   │   └── 📁 register/
 │   │   │       └── 📄 route.ts (1.23 KB)
 │   │   └── 📁 generate-questions/
@@ -407,15 +407,15 @@ export default function AdminPage() {
 ### <a id="📄-app-api-auth-nextauth-route-js"></a>📄 `app/api/auth/[...nextauth]/route.js`
 
 **File Info:**
-- **Size**: 609 B
+- **Size**: 415 B
 - **Extension**: `.js`
 - **Language**: `javascript`
 - **Location**: `app/api/auth/[...nextauth]/route.js`
 - **Relative Path**: `app/api/auth/[...nextauth]`
 - **Created**: 2026-09-28 06:51:51 (Asia/Calcutta / GMT+06:30)
-- **Modified**: 2026-09-28 15:30:50 (Asia/Calcutta / GMT+06:30)
-- **MD5**: `4a46eb62ed367586821a3b6e46470a8f`
-- **SHA256**: `5f1fe85b0a5c4198957f87de372c1c2d98caabd8406290b6e613d7497aa5f228`
+- **Modified**: 2026-09-28 15:39:20 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `bc7bd7eb572923c4e1721aff900f0689`
+- **SHA256**: `f1abc9f73060cb1895233f389fab7d083c3420bcf747cdabaa525e0b8c1bbbf1`
 - **Encoding**: ASCII
 
 **File code content:**
@@ -424,17 +424,14 @@ export default function AdminPage() {
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const runtime = "nodejs"; // Force Node.js environment on Vercel
-
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret_key_prepmetre_2026_secure",
-  debug: true, // This forces NextAuth to log errors cleanly to your Vercel logs instead of a cryptic 500
 });
 
 export { handler as GET, handler as POST };
