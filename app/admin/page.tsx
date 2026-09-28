@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, ReactElement } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
 interface UserSession {
   email?: string;
@@ -11,11 +12,15 @@ export default function AdminPage(): ReactElement {
   const [user, setUser] = useState<UserSession | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [selectedExam, setSelectedExam] = useState<string>("jee");
+  const [selectedTestId, setSelectedTestId] = useState<string>("");
+  const [availableTests, setAvailableTests] = useState<{ id: string; title: string; category: string }[]>([]);
   const [questionText, setQuestionText] = useState<string>("");
   const [options, setOptions] = useState<string[]>(["", "", "", ""]);
-  const [correctAnswer, setCorrectAnswer] = useState<number>(0);
+  const [correctOption, setCorrectOption] = useState<number>(0);
+  const [explanation, setExplanation] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     const match = document.cookie.match(new RegExp('(^| )prepmetre_user=([^;]+)'));
@@ -27,7 +32,26 @@ export default function AdminPage(): ReactElement {
       }
     }
     setLoading(false);
+    fetchTests();
   }, []);
+
+  const fetchTests = async () => {
+    const { data, error } = await supabase.from('tests').select('id, title, category');
+    if (data && data.length > 0) {
+      setAvailableTests(data);
+      setSelectedTestId(data[0].id);
+    } else {
+      // If no tests exist yet in Supabase, create a default test automatically
+      const { data: newTest, error: insertError } = await supabase.from('tests').insert([
+        { title: 'JEE Advanced Full Mock 1', slug: 'jee-advanced-mock-1', category: 'jee', badge: 'Core Engineering', total_questions: 30, duration_minutes: 180 }
+      ]).select('id, title, category').single();
+
+      if (newTest) {
+        setAvailableTests([newTest]);
+        setSelectedTestId(newTest.id);
+      }
+    }
+  };
 
   if (loading) {
     return <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">Loading Security Protocol...</div>;
@@ -63,26 +87,37 @@ export default function AdminPage(): ReactElement {
     setOptions(updatedOptions);
   };
 
-  const handlePublishQuestion = (e: React.FormEvent) => {
+  const handlePublishQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!questionText.trim()) return;
+    if (!questionText.trim() || !selectedTestId) return;
 
-    const newQuestionPayload = {
-      exam: selectedExam,
-      question: questionText,
-      options,
-      correctAnswer,
-      createdAt: new Date().toISOString(),
-    };
+    setIsSubmitting(true);
+    setErrorMessage("");
+    setSuccessMessage("");
 
-    console.log("Published Question:", newQuestionPayload);
-    setSuccessMessage(`Successfully injected question into ${selectedExam.toUpperCase()} live test series!`);
-    
-    setQuestionText("");
-    setOptions(["", "", "", ""]);
-    setCorrectAnswer(0);
+    const { error } = await supabase.from('questions').insert([
+      {
+        test_id: selectedTestId,
+        question_text: questionText,
+        options: options,
+        correct_option: correctOption,
+        explanation: explanation || "No explanation provided."
+      }
+    ]);
 
-    setTimeout(() => setSuccessMessage(""), 4000);
+    setIsSubmitting(false);
+
+    if (error) {
+      setErrorMessage(`Failed to save question: ${error.message}`);
+    } else {
+      setSuccessMessage(`Successfully injected question directly into Supabase database! 🚀`);
+      setQuestionText("");
+      setOptions(["", "", "", ""]);
+      setCorrectOption(0);
+      setExplanation("");
+
+      setTimeout(() => setSuccessMessage(""), 5000);
+    }
   };
 
   return (
@@ -102,13 +137,19 @@ export default function AdminPage(): ReactElement {
       <main className="max-w-4xl w-full mx-auto p-8 flex-1">
         <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-xl">
           <div className="mb-6 border-b border-slate-800 pb-4">
-            <h3 className="text-xl font-black text-white">Live Test Series Question Builder</h3>
-            <p className="text-xs text-slate-400 mt-1">Add structured multiple-choice questions directly to active student mock tests.</p>
+            <h3 className="text-xl font-black text-white">Live Supabase Question Ingester</h3>
+            <p className="text-xs text-slate-400 mt-1">Add structured multiple-choice questions directly to your live Supabase database tables.</p>
           </div>
 
           {successMessage && (
-            <div className="mb-6 p-4 bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 rounded-xl text-xs font-bold animate-pulse">
+            <div className="mb-6 p-4 bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 rounded-xl text-xs font-bold">
               {successMessage}
+            </div>
+          )}
+
+          {errorMessage && (
+            <div className="mb-6 p-4 bg-rose-950/60 border border-rose-500/30 text-rose-300 rounded-xl text-xs font-bold">
+              {errorMessage}
             </div>
           )}
 
@@ -116,15 +157,13 @@ export default function AdminPage(): ReactElement {
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Select Target Test Series</label>
               <select 
-                value={selectedExam} 
-                onChange={(e) => setSelectedExam(e.target.value)}
+                value={selectedTestId} 
+                onChange={(e) => setSelectedTestId(e.target.value)}
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
               >
-                <option value="jee">Engineering (IIT-JEE Advanced & Mains)</option>
-                <option value="neet">Medical (NEET-UG Grand Tests)</option>
-                <option value="upsc">UPSC Civil Services Prelims (GS 1)</option>
-                <option value="ssc">SSC CGL Tier-1 & Tier-2</option>
-                <option value="banking">Banking & Insurance (IBPS/SBI)</option>
+                {availableTests.map((t) => (
+                  <option key={t.id} value={t.id}>{t.title} ({t.category.toUpperCase()})</option>
+                ))}
               </select>
             </div>
 
@@ -160,10 +199,10 @@ export default function AdminPage(): ReactElement {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Select Correct Option Index</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Select Correct Option</label>
               <select 
-                value={correctAnswer} 
-                onChange={(e) => setCorrectAnswer(Number(e.target.value))}
+                value={correctOption} 
+                onChange={(e) => setCorrectOption(Number(e.target.value))}
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
               >
                 <option value={0}>Option A is Correct</option>
@@ -173,8 +212,23 @@ export default function AdminPage(): ReactElement {
               </select>
             </div>
 
-            <button type="submit" className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm shadow-lg transition">
-              Publish Question to Live Student Portal 🚀
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Solution Explanation (Optional)</label>
+              <input 
+                type="text"
+                value={explanation}
+                onChange={(e) => setExplanation(e.target.value)}
+                placeholder="Enter brief step-by-step answer explanation..."
+                className="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm shadow-lg transition disabled:opacity-50"
+            >
+              {isSubmitting ? "Saving to Supabase..." : "Publish Question to Supabase Database 🚀"}
             </button>
           </form>
         </div>
