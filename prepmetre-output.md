@@ -3,7 +3,7 @@
 ## 📊 Project Information
 
 - **Project Name**: `prepmetre`
-- **Generated On**: 2026-09-28 14:23:40 (Asia/Calcutta / GMT+06:30)
+- **Generated On**: 2026-09-28 14:30:41 (Asia/Calcutta / GMT+06:30)
 - **Total Files Processed**: 45
 - **Export Tool**: Easy Whole Project to Single Text File for LLMs v1.1.0
 - **Tool Author**: Jota / José Guilherme Pandolfi
@@ -28,7 +28,7 @@
 │   ├── 📁 api/
 │   │   ├── 📁 auth/
 │   │   │   ├── 📁 [...nextauth]/
-│   │   │   │   └── 📄 route.js (584 B)
+│   │   │   │   └── 📄 route.js (551 B)
 │   │   │   └── 📁 register/
 │   │   │       └── 📄 route.ts (1.23 KB)
 │   │   └── 📁 generate-questions/
@@ -407,15 +407,15 @@ export default function AdminPage() {
 ### <a id="📄-app-api-auth-nextauth-route-js"></a>📄 `app/api/auth/[...nextauth]/route.js`
 
 **File Info:**
-- **Size**: 584 B
+- **Size**: 551 B
 - **Extension**: `.js`
 - **Language**: `javascript`
 - **Location**: `app/api/auth/[...nextauth]/route.js`
 - **Relative Path**: `app/api/auth/[...nextauth]`
 - **Created**: 2026-09-28 06:51:51 (Asia/Calcutta / GMT+06:30)
-- **Modified**: 2026-09-28 14:23:39 (Asia/Calcutta / GMT+06:30)
-- **MD5**: `24795504f306814e5f18a467a3d719db`
-- **SHA256**: `7ac7c57138357f67bffa58ffe73336e04b6d94ff3361f11117ee1eedcfb80834`
+- **Modified**: 2026-09-28 14:30:40 (Asia/Calcutta / GMT+06:30)
+- **MD5**: `7a0b8d561622332cbd617e4108f54206`
+- **SHA256**: `2d17b901f8649eb1305706accb1ccec3312a71c85f01ec9ed20a8ed7f54b01c9`
 - **Encoding**: ASCII
 
 **File code content:**
@@ -424,19 +424,17 @@ export default function AdminPage() {
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const runtime = "nodejs";
-
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
-      if (session.user) {
+      if (session?.user && token?.sub) {
         session.user.id = token.sub;
       }
       return session;
